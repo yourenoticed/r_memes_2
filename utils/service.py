@@ -3,6 +3,7 @@ from utils.r_queries import RQueries
 from random import randrange
 from json import loads
 from json.decoder import JSONDecodeError
+from utils.subreddit_list import MEME_S, RU_MEME_S
 
 
 class Service():
@@ -68,10 +69,8 @@ class Service():
 
     @staticmethod
     def get_totally_random_meme():
-        meme_s = ["meme", "memes", "Memes_Of_The_Dank", "MemeEconomy", "programmingmemes",
-                  "dankmemes", "wholesomememes" "ProgrammerHumor", "HistoryMemes"]
         query = RQueries("http://reddit.com/r/" +
-                         meme_s[randrange(0, len(meme_s))])
+                         MEME_S[randrange(0, len(MEME_S))])
         response = query.get_random()
         try:
             memes = loads(response.content)
@@ -82,3 +81,18 @@ class Service():
             return Service.exc_photo
         except:
             return Service.get_totally_random_meme()
+
+    @staticmethod
+    def get_random_russian_meme():
+        query = RQueries("http://reddit.com/r/" +
+                         RU_MEME_S[randrange(0, len(RU_MEME_S))])
+        response = query.get_random()
+        try:
+            memes = loads(response.content)
+            children = memes[0]["data"]["children"]
+            meme_data = MemeParser(children)[0]
+            return meme_data
+        except JSONDecodeError:
+            return Service.exc_photo
+        except:
+            return Service.get_random_russian_meme()

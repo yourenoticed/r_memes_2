@@ -22,6 +22,12 @@ async def button_message(message: Message):
     await send_file(message, meme)
 
 
+@router.message(F.text == "ДАЙТЕ МЕМЫ")
+async def button_message(message: Message):
+    meme = Service.get_random_russian_meme()
+    await send_file(message, meme)
+
+
 @router.message(Command("search"))
 async def search(message: Message):
     msg = message.text.split()
