@@ -116,7 +116,7 @@ async def send_file(message: Message, file_url: str):
         file = URLInputFile(file_url)
         await message.reply_photo(file, reply_markup=get_keyboard(message.text))
     elif is_video(file_url):
-        file = URLInputFile(file_url + "/DASH_480.mp4")
-        await message.reply_video(file, reply_markup=get_keyboard(message.text))
+        file_url = file_url + "/DASH_480.mp4"
+        await message.reply(file_url, reply_markup=get_keyboard(message.text))
     elif is_animation(file_url):
-        await message.reply_animation(file, reply_markup=get_keyboard(message.text))
+        await message.reply(file_url, reply_markup=get_keyboard(message.text))
