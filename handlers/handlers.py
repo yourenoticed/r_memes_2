@@ -96,17 +96,11 @@ async def send_random(message: Message):
 
 
 def is_image(url: str) -> bool:
-    file_format = url.split(".")[-1].lower()
-    if file_format in ["jpg", "jpeg", "png", "svg"]:
-        return True
-    return False
+    return "i.redd.it" in url
 
 
 def is_video(url: str) -> bool:
-    file_format = url.split(".")[-1].lower()
-    if file_format in ["mp4", "mkv", "hevc"]:
-        return True
-    return False
+    return "v.redd.it" in url
 
 
 def is_animation(url: str) -> bool:
@@ -117,11 +111,12 @@ def is_animation(url: str) -> bool:
 
 
 async def send_file(message: Message, file_url: str):
-    file = URLInputFile(file_url)
     # await message.reply(file.url)
     if is_image(file_url):
+        file = URLInputFile(file_url)
         await message.reply_photo(file, reply_markup=get_keyboard(message.text))
     elif is_video(file_url):
+        file = URLInputFile(file_url + "/DASH_480.mp4")
         await message.reply_video(file, reply_markup=get_keyboard(message.text))
     elif is_animation(file_url):
         await message.reply_animation(file, reply_markup=get_keyboard(message.text))
