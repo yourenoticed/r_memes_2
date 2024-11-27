@@ -7,7 +7,7 @@ give_memes_button = ReplyKeyboardMarkup(keyboard=[
 
 
 def get_keyboard(last_request: str) -> ReplyKeyboardMarkup:
-    if last_request == "GIFF MEMES":
+    if last_request in ["GIFF MEMES", "ДАЙТЕ МЕМЫ"]:
         return give_memes_button
     return ReplyKeyboardMarkup(keyboard=[
         [KeyboardButton(text="GIFF MEMES")],
